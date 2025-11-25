@@ -9,11 +9,38 @@ use Illuminate\Http\Request;
 
 class SuratKeluarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $suratKeluar = SuratKeluar::with(['petugas', 'klasifikasi'])
-            ->latest()
-            ->paginate(15);
+        $query = SuratKeluar::with(['petugas', 'klasifikasi']);
+        
+        // Apply filters
+        if ($request->filled('nomor_surat')) {
+            $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
+        }
+        
+        if ($request->filled('perihal')) {
+            $query->where('perihal', 'like', '%' . $request->perihal . '%');
+        }
+        
+        if ($request->filled('tujuan')) {
+            $query->where('tujuan', 'like', '%' . $request->tujuan . '%');
+        }
+        
+        if ($request->filled('tanggal')) {
+            $query->whereDate('tanggal_surat', $request->tanggal);
+        }
+        
+        // Apply sorting
+        $sortField = $request->get('sort', 'created_at');
+        $sortDirection = $request->get('direction', 'desc');
+        
+        if (in_array($sortField, ['nomor_surat', 'tanggal_surat'])) {
+            $query->orderBy($sortField, $sortDirection);
+        } else {
+            $query->latest();
+        }
+        
+        $suratKeluar = $query->paginate(15)->withQueryString();
 
         return view('surat-keluar.index', compact('suratKeluar'));
     }
