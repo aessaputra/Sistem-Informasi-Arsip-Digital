@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
@@ -16,6 +15,7 @@ class UserSeeder extends Seeder
         $admin = User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
+            'username' => 'admin',
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole('admin');
@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
         $operator = User::factory()->create([
             'name' => 'Operator',
             'email' => 'operator@operator.com',
+            'username' => 'operator',
             'password' => bcrypt('password'),
         ]);
         $operator->assignRole('operator');

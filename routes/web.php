@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 
     // Admin only routes
     Route::middleware('role:admin')->group(function () {
-        Route::resource('users', UserController::class)->except(['show', 'destroy']);
+        Route::resource('users', UserController::class)->except(['show']);
         Route::resource('klasifikasi', KlasifikasiController::class)->except(['show', 'destroy']);
         Route::get('log-aktivitas', [LogAktivitasController::class, 'index'])->name('log-aktivitas.index');
     });
