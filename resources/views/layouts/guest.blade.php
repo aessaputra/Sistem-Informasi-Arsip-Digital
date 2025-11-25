@@ -25,6 +25,8 @@
     <script src="{{ asset('tabler/js/demo-theme.min.js') }}"></script>
     <div class="page page-center">
       <div class="container container-tight py-4">
+        @hasSection('hide_brand')
+        @else
         <div class="text-center mb-4">
           <a href="." class="navbar-brand navbar-brand-autodark">
             <svg xmlns="http://www.w3.org/2000/svg" width="110" height="32" viewBox="0 0 232 68" class="navbar-brand-image">
@@ -33,8 +35,13 @@
             </svg>
           </a>
         </div>
+        @endif
         
-        {{ $slot }}
+        @hasSection('content')
+          @yield('content')
+        @else
+          {{ $slot ?? '' }}
+        @endif
 
       </div>
     </div>
