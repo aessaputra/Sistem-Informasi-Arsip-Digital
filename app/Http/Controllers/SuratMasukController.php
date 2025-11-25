@@ -30,6 +30,10 @@ class SuratMasukController extends Controller
             $query->whereDate('tanggal_surat', $request->tanggal);
         }
         
+        if ($request->filled('klasifikasi_surat_id')) {
+            $query->where('klasifikasi_surat_id', $request->klasifikasi_surat_id);
+        }
+        
         // Apply sorting
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
@@ -41,8 +45,9 @@ class SuratMasukController extends Controller
         }
         
         $suratMasuk = $query->paginate(15)->withQueryString();
+        $klasifikasi = KlasifikasiSurat::where('is_active', true)->get();
 
-        return view('surat-masuk.index', compact('suratMasuk'));
+        return view('surat-masuk.index', compact('suratMasuk', 'klasifikasi'));
     }
 
     public function create()
@@ -66,29 +71,32 @@ class SuratMasukController extends Controller
             'file_path' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ]);
 
-        $validated['jam_input'] = now();
-        $validated['petugas_input_id'] = auth()->id();
-
-        if ($request->hasFile('file_path')) {
-            $validated['file_path'] = $request->file('file_path')->store('surat-masuk', 'public');
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+            $validated['jam_input'] = now();
+            $validated['petugas_input_id'] = auth()->id();
+            if ($request->hasFile('file_path')) {
+                $pathDir = 'surat-masuk/' . now()->format('Y/m');
+                $validated['file_path'] = $request->file('file_path')->store($pathDir, 'public');
+            }
+            $suratMasuk = SuratMasuk::create($validated);
+            LogAktivitas::create([
+                'user_id' => auth()->id(),
+                'aksi' => 'create',
+                'modul' => 'surat_masuk',
+                'reference_table' => 'surat_masuk',
+                'reference_id' => $suratMasuk->id,
+                'keterangan' => 'Menambahkan surat masuk: ' . $suratMasuk->nomor_surat,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+            \Illuminate\Support\Facades\DB::commit();
+            return redirect()->route('surat-masuk.index')
+                ->with('success', 'Surat masuk berhasil ditambahkan.');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan surat masuk.');
         }
-
-        $suratMasuk = SuratMasuk::create($validated);
-
-        // Log activity
-        LogAktivitas::create([
-            'user_id' => auth()->id(),
-            'aksi' => 'create',
-            'modul' => 'surat_masuk',
-            'reference_table' => 'surat_masuk',
-            'reference_id' => $suratMasuk->id,
-            'keterangan' => 'Menambahkan surat masuk: ' . $suratMasuk->nomor_surat,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        return redirect()->route('surat-masuk.index')
-            ->with('success', 'Surat masuk berhasil ditambahkan.');
     }
 
     public function show(SuratMasuk $suratMasuk)
@@ -116,50 +124,62 @@ class SuratMasukController extends Controller
             'tanggal_surat_masuk' => 'required|date',
             'klasifikasi_surat_id' => 'required|exists:klasifikasi_surat,id',
             'keterangan' => 'nullable|string',
-            'file_path' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'file_path' => 'nullable|file|mimes:pdf,doc,docx|extensions:pdf,doc,docx|max:2048',
         ]);
 
-        if ($request->hasFile('file_path')) {
-            $validated['file_path'] = $request->file('file_path')->store('surat-masuk', 'public');
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+            $validated['jam_input'] = now();
+            $validated['petugas_input_id'] = auth()->id();
+            if ($request->hasFile('file_path')) {
+                if ($suratMasuk->file_path) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($suratMasuk->file_path);
+                }
+                $pathDir = 'surat-masuk/' . now()->format('Y/m');
+                $validated['file_path'] = $request->file('file_path')->store($pathDir, 'public');
+            }
+            $suratMasuk->update($validated);
+            LogAktivitas::create([
+                'user_id' => auth()->id(),
+                'aksi' => 'update',
+                'modul' => 'surat_masuk',
+                'reference_table' => 'surat_masuk',
+                'reference_id' => $suratMasuk->id,
+                'keterangan' => 'Mengubah surat masuk: ' . $suratMasuk->nomor_surat,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+            \Illuminate\Support\Facades\DB::commit();
+            return redirect()->route('surat-masuk.index')
+                ->with('success', 'Surat masuk berhasil diperbarui.');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui surat masuk.');
         }
-
-        $suratMasuk->update($validated);
-
-        // Log activity
-        LogAktivitas::create([
-            'user_id' => auth()->id(),
-            'aksi' => 'update',
-            'modul' => 'surat_masuk',
-            'reference_table' => 'surat_masuk',
-            'reference_id' => $suratMasuk->id,
-            'keterangan' => 'Mengubah surat masuk: ' . $suratMasuk->nomor_surat,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        return redirect()->route('surat-masuk.index')
-            ->with('success', 'Surat masuk berhasil diperbarui.');
     }
 
     public function destroy(Request $request, SuratMasuk $suratMasuk)
     {
-        $nomorSurat = $suratMasuk->nomor_surat;
-        
-        $suratMasuk->delete();
-
-        // Log activity
-        LogAktivitas::create([
-            'user_id' => auth()->id(),
-            'aksi' => 'delete',
-            'modul' => 'surat_masuk',
-            'reference_table' => 'surat_masuk',
-            'reference_id' => $suratMasuk->id,
-            'keterangan' => 'Menghapus surat masuk: ' . $nomorSurat,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        return redirect()->route('surat-masuk.index')
-            ->with('success', 'Surat masuk berhasil dihapus.');
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+            $nomorSurat = $suratMasuk->nomor_surat;
+            $suratMasuk->delete();
+            LogAktivitas::create([
+                'user_id' => auth()->id(),
+                'aksi' => 'delete',
+                'modul' => 'surat_masuk',
+                'reference_table' => 'surat_masuk',
+                'reference_id' => $suratMasuk->id,
+                'keterangan' => 'Menghapus surat masuk: ' . $nomorSurat,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
+            \Illuminate\Support\Facades\DB::commit();
+            return redirect()->route('surat-masuk.index')
+                ->with('success', 'Surat masuk berhasil dihapus.');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan saat menghapus surat masuk.');
+        }
     }
 }

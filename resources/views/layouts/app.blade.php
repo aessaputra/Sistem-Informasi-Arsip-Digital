@@ -34,12 +34,20 @@
         <!-- Page wrapper -->
         <div class="page-wrapper">
             <!-- Page header -->
-            <x-layout.navbar :title="$attributes->get('title')" :headerActions="$attributes->get('headerActions')" />
+            @php
+                $__title = isset($title) ? $title : (isset($attributes) ? $attributes->get('title') : trim($__env->yieldContent('title')));
+                $__headerActions = isset($attributes) ? $attributes->get('headerActions') : null;
+            @endphp
+            <x-layout.navbar :title="$__title" :headerActions="$__headerActions" />
 
             <!-- Page body -->
             <div class="page-body">
                 <div class="container-xl">
-                    {{ $slot }}
+                    @hasSection('content')
+                        @yield('content')
+                    @else
+                        {{ $slot }}
+                    @endif
                 </div>
             </div>
         </div>

@@ -1,4 +1,6 @@
-<x-app-layout title="Surat Masuk">
+@extends('layouts.app')
+@section('title', 'Surat Masuk')
+@section('content')
     <!-- Filter Bar -->
     <div class="card mb-3">
         <div class="card-body">
@@ -19,6 +21,15 @@
                     <div class="col-md-3">
                         <label class="form-label">Tanggal</label>
                         <input type="date" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Klasifikasi</label>
+                        <select name="klasifikasi_surat_id" class="form-select">
+                            <option value="">Semua klasifikasi</option>
+                            @foreach($klasifikasi as $k)
+                                <option value="{{ $k->id }}" @selected(request('klasifikasi_surat_id')==$k->id)>{{ $k->kode }} - {{ $k->nama }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -152,4 +163,4 @@
         </div>
         @endif
     </div>
-</x-app-layout>
+@endsection

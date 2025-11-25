@@ -43,6 +43,21 @@
                         <span class="nav-link-title">Surat Keluar</span>
                     </a>
                 </li>
+                @if(auth()->user()?->hasRole('admin'))
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('klasifikasi.*') ? 'active' : '' }}" href="{{ route('klasifikasi.index') }}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                                <path d="M4 4h6v6H4z"></path>
+                                <path d="M14 4h6v6h-6z"></path>
+                                <path d="M4 14h6v6H4z"></path>
+                                <path d="M14 14h6v6h-6z"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">Klasifikasi Surat</span>
+                    </a>
+                </li>
+                @endif
                 @role('admin')
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
@@ -55,6 +70,17 @@
                             </svg>
                         </span>
                         <span class="nav-link-title">Manajemen User</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('log-aktivitas.index') ? 'active' : '' }}" href="{{ route('log-aktivitas.index') }}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                                <path d="M12 8v5l3 3"></path>
+                                <path d="M12 3a9 9 0 1 0 9 9"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">Log Aktivitas</span>
                     </a>
                 </li>
                 @endrole
