@@ -29,10 +29,14 @@
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link d-flex lh-1 p-0 px-2" data-bs-toggle="dropdown" aria-label="Open user menu">
-                            <span class="avatar avatar-sm" style="background-image: url({{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('static/avatars/000m.jpg') }})"></span>
+                            @php($avatar = Auth::user()->avatar)
+                            @if($avatar)
+                                <span class="avatar avatar-sm" style="background-image: url({{ asset('storage/' . $avatar) }})"></span>
+                            @else
+                                <span class="avatar avatar-sm">{{ Str::substr(Auth::user()->name, 0, 1) }}</span>
+                            @endif
                             <div class="d-none d-xl-block ps-2">
                                 <div>{{ Auth::user()->name }}</div>
-                                <div class="mt-1 small text-secondary">{{ Auth::user()->getRoleNames()->first() ?? 'User' }}</div>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

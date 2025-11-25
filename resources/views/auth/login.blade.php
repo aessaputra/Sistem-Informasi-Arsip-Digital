@@ -5,9 +5,9 @@
             <form action="{{ route('login') }}" method="POST" autocomplete="off" novalidate>
                 @csrf
                 <div class="mb-3">
-                    <label class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="your@email.com" value="{{ old('email') }}" required autofocus autocomplete="username">
-                    @error('email')
+                    <label class="form-label">Email atau Username</label>
+                    <input type="text" name="login" class="form-control @error('login') is-invalid @enderror" placeholder="email atau username" value="{{ old('login') }}" required autofocus autocomplete="username">
+                    @error('login')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
