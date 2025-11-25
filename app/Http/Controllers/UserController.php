@@ -17,12 +17,14 @@ class UserController extends Controller
 
     public function create()
     {
+        abort_unless(auth()->user()?->hasRole('admin'), 403);
         $roles = Role::pluck('name');
         return view('users.create', compact('roles'));
     }
 
     public function store(Request $request)
     {
+        abort_unless(auth()->user()?->hasRole('admin'), 403);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',

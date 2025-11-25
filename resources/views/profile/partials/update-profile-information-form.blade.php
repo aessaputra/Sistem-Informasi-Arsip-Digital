@@ -18,7 +18,7 @@
         <div class="mb-3">
             <label class="form-label" for="username">Username</label>
             <input id="username" type="text" class="form-control" value="{{ auth()->user()->username }}" disabled>
-            <div class="form-text">Username hanya dapat diubah oleh admin melalui Manajemen User.</div>
+            <div class="form-text">Username hanya dapat diubah oleh admin.</div>
         </div>
 
         <div class="mb-3">
