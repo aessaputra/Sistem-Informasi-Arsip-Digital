@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout title="Surat Masuk">
     <!-- Filter Bar -->
     <div class="card mb-3">
         <div class="card-body">

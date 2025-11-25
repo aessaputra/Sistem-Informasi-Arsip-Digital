@@ -59,24 +59,7 @@
                 </li>
                 @endrole
             </ul>
-            <div class="nav-item dropdown mt-auto">
-                <div class="hr-text my-3"></div>
-                <a href="#" class="nav-link d-flex lh-1 text-reset p-0 px-2" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    <span class="avatar avatar-sm" style="background-image: url({{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : asset('static/avatars/000m.jpg') }})"></span>
-                    <div class="d-none d-xl-block ps-2">
-                        <div>{{ Auth::user()->name }}</div>
-                        <div class="mt-1 small text-secondary">{{ Auth::user()->getRoleNames()->first() ?? 'User' }}</div>
-                    </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
-                    <div class="dropdown-divider"></div>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="dropdown-item">Logout</button>
-                    </form>
-                </div>
-            </div>
+            
         </div>
     </div>
 </aside>

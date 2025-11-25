@@ -34,7 +34,7 @@
         <!-- Page wrapper -->
         <div class="page-wrapper">
             <!-- Page header -->
-            <x-layout.navbar :title="$title ?? null" :headerActions="$headerActions ?? null" />
+            <x-layout.navbar :title="$attributes->get('title')" :headerActions="$attributes->get('headerActions')" />
 
             <!-- Page body -->
             <div class="page-body">
