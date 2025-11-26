@@ -1,66 +1,416 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Informasi Arsip Digital
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <strong>Digital Mail Archive Information System</strong><br>
+  Sistem Manajemen Arsip Surat Masuk dan Surat Keluar
 </p>
 
-## About Laravel
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-11.31-FF2D20?style=flat&logo=laravel" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php" alt="PHP">
+  <img src="https://img.shields.io/badge/Tabler-UI-0054A6?style=flat" alt="Tabler">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Tentang Aplikasi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Sistem Informasi Arsip Digital adalah aplikasi web berbasis Laravel yang dirancang untuk mengelola arsip surat masuk dan surat keluar secara digital. Aplikasi ini membantu organisasi atau instansi dalam mencatat, menyimpan, dan mengelola dokumen surat dengan lebih terstruktur dan efisien.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### ✨ Fitur Utama
 
-## Learning Laravel
+- **📥 Manajemen Surat Masuk**
+  - CRUD (Create, Read, Update, Delete) surat masuk
+  - Upload file lampiran dokumen
+  - Pencarian dan filter data
+  - Klasifikasi surat berdasarkan kategori
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **📤 Manajemen Surat Keluar**
+  - CRUD surat keluar
+  - Upload file lampiran dokumen
+  - Pencarian dan filter data
+  - Klasifikasi surat berdasarkan kategori
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **🏷️ Klasifikasi Surat**
+  - Pengelolaan kategori/klasifikasi surat
+  - Status aktif/non-aktif untuk klasifikasi
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **👥 Manajemen Pengguna**
+  - Role-based access control (RBAC)
+  - Role Admin: Akses penuh ke seluruh sistem
+  - Role Operator: Akses terbatas untuk manajemen surat
 
-## Laravel Sponsors
+- **📊 Dashboard**
+  - Statistik surat masuk dan keluar
+  - Aktivitas terbaru
+  - Ringkasan data harian
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **📝 Log Aktivitas**
+  - Pencatatan semua aktivitas pengguna
+  - Audit trail untuk keamanan data
 
-### Premium Partners
+- **👤 Profil Pengguna**
+  - Update informasi profil
+  - Upload foto profil/avatar
+  - Ubah password
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- **🎨 UI Modern**
+  - Menggunakan Tabler UI Framework
+  - Dark/Light mode toggle
+  - Responsive design untuk semua perangkat
 
-## Contributing
+## 🛠️ Teknologi yang Digunakan
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Backend
+- **Laravel 11.31** - PHP Framework
+- **PHP 8.2+** - Programming Language
+- **Spatie Laravel Permission** - Role & Permission Management
 
-## Code of Conduct
+### Frontend
+- **Tabler** - Admin Dashboard UI Kit
+- **Alpine.js** - Lightweight JavaScript Framework
+- **TailwindCSS** - Utility-first CSS Framework
+- **Vite** - Build Tool & Development Server
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Database
+- **SQLite** (Default) - Lightweight Database
+- Support untuk **MySQL** / **PostgreSQL**
 
-## Security Vulnerabilities
+### Authentication
+- **Laravel Breeze** - Simple Authentication Scaffolding
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📦 Persyaratan Sistem
 
-## License
+Pastikan sistem Anda memenuhi persyaratan berikut:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **PHP** >= 8.2
+- **Composer** - PHP Dependency Manager
+- **Node.js** >= 18.x
+- **npm** - Node Package Manager
+- **Database**: SQLite / MySQL / PostgreSQL
+- **Web Server**: Apache / Nginx / Laravel Serve
+
+## 🚀 Instalasi
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/aessaputra/Sistem-Informasi-Arsip-Digital.git
+cd Sistem-Informasi-Arsip-Digital
+```
+
+### 2. Install Dependencies PHP
+
+```bash
+composer install
+```
+
+### 3. Install Dependencies Node.js
+
+```bash
+npm install
+```
+
+### 4. Konfigurasi Environment
+
+Salin file `.env.example` menjadi `.env`:
+
+```bash
+cp .env.example .env
+```
+
+**Untuk Windows PowerShell:**
+```powershell
+copy .env.example .env
+```
+
+### 5. Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+### 6. Konfigurasi Database
+
+Edit file `.env` sesuai dengan database yang Anda gunakan:
+
+**Untuk SQLite (Default - Recommended untuk Development):**
+```env
+DB_CONNECTION=sqlite
+# Hapus atau comment baris DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD
+```
+
+**Untuk MySQL:**
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=arsip_digital
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 7. Buat Database SQLite (jika menggunakan SQLite)
+
+```bash
+# Linux/Mac
+touch database/database.sqlite
+
+# Windows PowerShell
+New-Item database/database.sqlite -ItemType File
+```
+
+### 8. Migrate Database & Seed Data
+
+```bash
+php artisan migrate --seed
+```
+
+Perintah ini akan:
+- Membuat semua tabel database
+- Membuat role (Admin & Operator)
+- Membuat user default
+
+### 9. Create Storage Link
+
+```bash
+php artisan storage:link
+```
+
+### 10. Build Assets
+
+**Untuk Development:**
+```bash
+npm run dev
+```
+
+**Untuk Production:**
+```bash
+npm run build
+```
+
+## 🎯 Menjalankan Aplikasi
+
+### Development Server
+
+Jalankan perintah berikut di terminal yang berbeda:
+
+**Terminal 1 - Laravel Server:**
+```bash
+php artisan serve
+```
+
+**Terminal 2 - Vite Dev Server (jika development):**
+```bash
+npm run dev
+```
+
+Atau gunakan composer script untuk menjalankan semua service sekaligus:
+```bash
+composer dev
+```
+
+Aplikasi akan tersedia di: **http://localhost:8000**
+
+### Default Login Credentials
+
+Setelah seeding database, Anda dapat login dengan akun berikut:
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | admin@admin.com | password |
+| **Operator** | operator@operator.com | password |
+
+> ⚠️ **PENTING**: Segera ubah password default setelah login pertama kali!
+
+## 📖 Panduan Penggunaan
+
+### Role & Permissions
+
+#### 👨‍💼 Admin
+- Mengelola semua surat masuk dan keluar
+- Mengelola pengguna (CRUD)
+- Mengelola klasifikasi surat
+- Melihat log aktivitas sistem
+- Akses penuh ke dashboard
+
+#### 👨‍💻 Operator
+- Mengelola surat masuk (CRUD)
+- Mengelola surat keluar (CRUD)
+- Akses terbatas ke dashboard
+- Tidak dapat mengelola pengguna dan klasifikasi
+
+### Workflow Surat Masuk
+
+1. Login sebagai Admin atau Operator
+2. Navigasi ke menu **Surat Masuk**
+3. Klik tombol **Tambah Surat Masuk**
+4. Isi form dengan data:
+   - Tanggal Surat
+   - Nomor Surat
+   - Perihal
+   - Dari (Pengirim)
+   - Kepada (Penerima)
+   - Tanggal Surat Masuk
+   - Klasifikasi Surat
+   - Keterangan (opsional)
+   - Upload File (opsional)
+5. Klik **Simpan**
+
+### Workflow Surat Keluar
+
+1. Login sebagai Admin atau Operator
+2. Navigasi ke menu **Surat Keluar**
+3. Klik tombol **Tambah Surat Keluar**
+4. Isi form dengan data yang relevan
+5. Klik **Simpan**
+
+### Mengelola Klasifikasi Surat (Admin Only)
+
+1. Login sebagai Admin
+2. Navigasi ke menu **Klasifikasi**
+3. Tambah, edit, atau nonaktifkan klasifikasi
+4. Setiap klasifikasi memiliki:
+   - Kode unik
+   - Nama klasifikasi
+   - Keterangan
+   - Status (Aktif/Tidak Aktif)
+
+## 📁 Struktur Proyek
+
+```
+Sistem-Informasi-Arsip-Digital/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/      # Controllers untuk routing
+│   ├── Models/               # Eloquent Models
+│   └── View/                 # View Components
+├── database/
+│   ├── migrations/           # Database migrations
+│   └── seeders/              # Database seeders
+├── public/                   # Public assets
+├── resources/
+│   ├── views/                # Blade templates
+│   ├── css/                  # CSS files
+│   └── js/                   # JavaScript files
+├── routes/
+│   ├── web.php               # Web routes
+│   └── auth.php              # Authentication routes
+├── storage/
+│   └── app/                  # File uploads
+├── tabler/                   # Tabler UI assets
+└── .env                      # Environment configuration
+```
+
+## ⚙️ Konfigurasi
+
+### Upload File
+
+Konfigurasi ukuran maksimum file upload dapat diatur di file `php.ini`:
+
+```ini
+upload_max_filesize = 10M
+post_max_size = 10M
+```
+
+### Timezone
+
+Atur timezone aplikasi di file `.env`:
+
+```env
+APP_TIMEZONE=Asia/Jakarta
+```
+
+### Locale
+
+Atur bahasa aplikasi di file `.env`:
+
+```env
+APP_LOCALE=id
+APP_FALLBACK_LOCALE=en
+```
+
+## 🧪 Testing
+
+Jalankan automated tests:
+
+```bash
+php artisan test
+```
+
+Atau dengan PHPUnit langsung:
+
+```bash
+./vendor/bin/phpunit
+```
+
+## 🐛 Troubleshooting
+
+### Error: "Permission denied" pada storage
+
+```bash
+# Linux/Mac
+chmod -R 775 storage bootstrap/cache
+
+# Atau
+sudo chown -R www-data:www-data storage bootstrap/cache
+```
+
+### Error: "No application encryption key has been specified"
+
+```bash
+php artisan key:generate
+```
+
+### Error: Database connection failed
+
+Pastikan:
+1. Database sudah dibuat (untuk MySQL/PostgreSQL)
+2. Kredensial database di `.env` sudah benar
+3. Service database sudah berjalan
+
+### Error: npm dependencies
+
+```bash
+# Hapus node_modules dan install ulang
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Error: Vite build issues
+
+```bash
+# Clear cache dan rebuild
+npm run build -- --force
+```
+
+## 🤝 Kontribusi
+
+Kontribusi selalu diterima! Silakan:
+
+1. Fork repository ini
+2. Buat branch fitur baru (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+## 📄 License
+
+Proyek ini menggunakan lisensi [MIT License](https://opensource.org/licenses/MIT).
+
+## 🙏 Credits
+
+- [Laravel Framework](https://laravel.com)
+- [Tabler UI](https://tabler.io)
+- [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission)
+- [Alpine.js](https://alpinejs.dev)
+- [TailwindCSS](https://tailwindcss.com)
+
+## 📞 Kontak & Support
+
+Untuk pertanyaan, saran, atau dukungan, silakan buka [Issue](https://github.com/username/Sistem-Informasi-Arsip-Digital/issues) di repository ini.
+
+---
+
+<p align="center">
+  Dibuat dengan ❤️ menggunakan Laravel & Tabler
+</p>
