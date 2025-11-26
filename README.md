@@ -68,7 +68,6 @@ Sistem Informasi Arsip Digital adalah aplikasi web berbasis Laravel yang diranca
 ### Frontend
 - **Tabler** - Admin Dashboard UI Kit
 - **Alpine.js** - Lightweight JavaScript Framework
-- **TailwindCSS** - Utility-first CSS Framework
 - **Vite** - Build Tool & Development Server
 
 ### Database
@@ -403,7 +402,6 @@ Proyek ini menggunakan lisensi [MIT License](https://opensource.org/licenses/MIT
 - [Tabler UI](https://tabler.io)
 - [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission)
 - [Alpine.js](https://alpinejs.dev)
-- [TailwindCSS](https://tailwindcss.com)
 
 ## 📞 Kontak & Support
 
