@@ -6,88 +6,99 @@
         <h3 class="card-title">Log Aktivitas</h3>
     </div>
     <div class="card-body">
-        <form method="GET" action="{{ route('log-aktivitas.index') }}" class="row g-2 align-items-end mb-3">
-            <div class="col-md-3">
-                <label class="form-label">User</label>
-                <select name="user_id" class="form-select">
-                    <option value="">Semua</option>
-                    @foreach($users as $u)
-                        <option value="{{ $u->id }}" @selected(request('user_id')==$u->id)>{{ $u->name }}</option>
-                    @endforeach
-                </select>
+        <form method="GET" action="{{ route('log-aktivitas.index') }}" class="mb-4">
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label class="form-label">User</label>
+                    <select name="user_id" class="form-select">
+                        <option value="">Semua</option>
+                        @foreach($users as $u)
+                            <option value="{{ $u->id }}" @selected(request('user_id')==$u->id)>{{ $u->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label class="form-label">Modul</label>
+                    <select name="modul" class="form-select">
+                        <option value="">Semua</option>
+                        <option value="surat_masuk" @selected(request('modul')=='surat_masuk')>Surat Masuk</option>
+                        <option value="surat_keluar" @selected(request('modul')=='surat_keluar')>Surat Keluar</option>
+                        <option value="user" @selected(request('modul')=='user')>User</option>
+                        <option value="klasifikasi" @selected(request('modul')=='klasifikasi')>Klasifikasi</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <label class="form-label">Aksi</label>
+                    <select name="aksi" class="form-select">
+                        <option value="">Semua</option>
+                        <option value="create" @selected(request('aksi')=='create')>Create</option>
+                        <option value="update" @selected(request('aksi')=='update')>Update</option>
+                        <option value="delete" @selected(request('aksi')=='delete')>Delete</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <label class="form-label">Tanggal Dari</label>
+                    <input type="date" name="tanggal_dari" class="form-control" value="{{ request('tanggal_dari') }}">
+                </div>
+                <div class="col-12 col-sm-6 col-lg-2">
+                    <label class="form-label">Tanggal Sampai</label>
+                    <input type="date" name="tanggal_sampai" class="form-control" value="{{ request('tanggal_sampai') }}">
+                </div>
             </div>
-            <div class="col-md-3">
-                <label class="form-label">Modul</label>
-                <select name="modul" class="form-select">
-                    <option value="">Semua</option>
-                    <option value="surat_masuk" @selected(request('modul')=='surat_masuk')>Surat Masuk</option>
-                    <option value="surat_keluar" @selected(request('modul')=='surat_keluar')>Surat Keluar</option>
-                    <option value="user" @selected(request('modul')=='user')>User</option>
-                    <option value="klasifikasi" @selected(request('modul')=='klasifikasi')>Klasifikasi</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">Aksi</label>
-                <select name="aksi" class="form-select">
-                    <option value="">Semua</option>
-                    <option value="create" @selected(request('aksi')=='create')>Create</option>
-                    <option value="update" @selected(request('aksi')=='update')>Update</option>
-                    <option value="delete" @selected(request('aksi')=='delete')>Delete</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">Tanggal Dari</label>
-                <input type="date" name="tanggal_dari" class="form-control" value="{{ request('tanggal_dari') }}">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label">Tanggal Sampai</label>
-                <input type="date" name="tanggal_sampai" class="form-control" value="{{ request('tanggal_sampai') }}">
-            </div>
-            <div class="col-12">
+            <div class="mt-3">
                 <button type="submit" class="btn btn-primary">Cari</button>
                 <a href="{{ route('log-aktivitas.index') }}" class="btn btn-secondary">Reset</a>
             </div>
         </form>
 
         <div class="table-responsive">
-            <table class="table table-vcenter table-striped table-hover">
+            <table class="table table-vcenter table-striped table-hover card-table">
                 <thead>
                     <tr>
                         <th>Waktu</th>
-                        <th>User</th>
+                        <th class="d-none d-md-table-cell">User</th>
                         <th>Aksi</th>
-                        <th>Modul</th>
-                        <th>Reference ID</th>
-                        <th>IP Address</th>
-                        <th>User Agent</th>
+                        <th class="d-none d-lg-table-cell">Modul</th>
+                        <th class="d-none d-xl-table-cell">IP Address</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($logs as $log)
                         <tr>
-                            <td>{{ $log->created_at->format('Y-m-d H:i') }}</td>
-                            <td>{{ $log->user?->name ?? '-' }}</td>
                             <td>
-                                <span class="badge {{ $log->aksi === 'create' ? 'bg-success' : ($log->aksi === 'update' ? 'bg-primary' : 'bg-danger') }}">{{ ucfirst($log->aksi) }}</span>
+                                <div class="text-truncate" style="max-width: 150px;">
+                                    <div class="fw-bold">{{ $log->created_at->format('d M Y') }}</div>
+                                    <small class="text-muted">{{ $log->created_at->format('H:i') }}</small>
+                                    <div class="d-md-none text-muted small mt-1">
+                                        <div>{{ $log->user?->name ?? '-' }}</div>
+                                        <div class="d-lg-none">{{ str_replace('_', ' ', ucfirst($log->modul)) }}</div>
+                                    </div>
+                                </div>
                             </td>
-                            <td>{{ str_replace('_', ' ', $log->modul) }}</td>
-                            <td>{{ $log->reference_id }}</td>
-                            <td>{{ $log->ip_address }}</td>
+                            <td class="d-none d-md-table-cell">
+                                <div class="text-truncate" style="max-width: 120px;" title="{{ $log->user?->name ?? '-' }}">
+                                    {{ $log->user?->name ?? '-' }}
+                                </div>
+                            </td>
                             <td>
-                                <a class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" href="#ua-{{ $log->id }}" role="button" aria-expanded="false" aria-controls="ua-{{ $log->id }}">
-                                    Lihat
-                                </a>
-                                <span class="text-muted ms-2">{{ \Illuminate\Support\Str::limit($log->user_agent, 40) }}</span>
+                                @if($log->aksi === 'create')
+                                    <span class="badge badge-outline text-success">Create</span>
+                                @elseif($log->aksi === 'update')
+                                    <span class="badge badge-outline text-primary">Update</span>
+                                @else
+                                    <span class="badge badge-outline text-danger">Delete</span>
+                                @endif
                             </td>
-                        </tr>
-                        <tr class="collapse" id="ua-{{ $log->id }}">
-                            <td colspan="7">
-                                <div class="p-2">{{ $log->user_agent }}</div>
+                            <td class="d-none d-lg-table-cell">
+                                <span class="badge badge-outline text-secondary">{{ str_replace('_', ' ', ucfirst($log->modul)) }}</span>
+                            </td>
+                            <td class="d-none d-xl-table-cell">
+                                <code class="text-muted">{{ $log->ip_address }}</code>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center">Tidak ada data</td>
+                        <td colspan="5" class="text-center py-5">Tidak ada data</td>
                         </tr>
                     @endforelse
                 </tbody>

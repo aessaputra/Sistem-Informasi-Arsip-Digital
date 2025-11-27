@@ -4,7 +4,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-brand navbar-brand-autodark">
-            <a href="{{ route('dashboard') }}" class="navbar-brand">Sanapati Surel</a>
+            <a href="{{ route('dashboard') }}" class="navbar-brand">
+                <img src="{{ asset('img/Diskominfo_logo.png') }}" alt="Diskominfo" style="height: 50px; width: auto;">
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">

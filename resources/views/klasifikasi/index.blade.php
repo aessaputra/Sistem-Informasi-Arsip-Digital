@@ -28,9 +28,9 @@
                             <td>{{ $k->keterangan }}</td>
                             <td>
                                 @if($k->is_active)
-                                    <span class="badge bg-success">Aktif</span>
+                                    <span class="badge badge-outline text-success fs-5">Aktif</span>
                                 @else
-                                    <span class="badge bg-danger">Nonaktif</span>
+                                    <span class="badge badge-outline text-danger fs-5">Nonaktif</span>
                                 @endif
                             </td>
                             <td>

@@ -6,23 +6,23 @@
         <div class="card-body">
             <form method="GET" action="{{ route('surat-keluar.index') }}">
                 <div class="row g-3">
-                    <div class="col-md-3">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <label class="form-label">Nomor Surat</label>
                         <input type="text" name="nomor_surat" class="form-control" placeholder="Cari nomor surat..." value="{{ request('nomor_surat') }}">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <label class="form-label">Perihal</label>
                         <input type="text" name="perihal" class="form-control" placeholder="Cari perihal..." value="{{ request('perihal') }}">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <label class="form-label">Tujuan</label>
                         <input type="text" name="tujuan" class="form-control" placeholder="Cari tujuan..." value="{{ request('tujuan') }}">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <label class="form-label">Tanggal</label>
                         <input type="date" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-12 col-sm-6 col-lg-3">
                         <label class="form-label">Klasifikasi</label>
                         <select name="klasifikasi_surat_id" class="form-select">
                             <option value="">Semua klasifikasi</option>
@@ -69,7 +69,7 @@
                                 @endif
                             </a>
                         </th>
-                        <th>
+                        <th class="d-none d-sm-table-cell">
                             <a href="{{ route('surat-keluar.index', array_merge(request()->all(), ['sort' => 'tanggal_surat', 'direction' => request('direction') === 'asc' ? 'desc' : 'asc'])) }}" class="text-secondary">
                                 Tanggal Surat
                                 @if(request('sort') === 'tanggal_surat')
@@ -84,53 +84,41 @@
                             </a>
                         </th>
                         <th>Perihal</th>
-                        <th>Tujuan</th>
-                        <th>Klasifikasi</th>
-                        <th>Petugas Input</th>
-                        <th class="w-1">Aksi</th>
+                        <th class="d-none d-md-table-cell">Tujuan</th>
+                        <th class="d-none d-lg-table-cell">Klasifikasi</th>
+                        <th class="d-none d-xl-table-cell">Petugas Input</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($suratKeluar as $surat)
-                    <tr>
-                        <td><span class="text-secondary">{{ $surat->nomor_surat }}</span></td>
-                        <td class="text-secondary">
+                    <tr class="cursor-pointer" onclick="window.location='{{ route('surat-keluar.show', $surat) }}'" title="Klik untuk melihat detail">
+                        <td>
+                            <div class="text-truncate" style="max-width: 150px;" title="{{ $surat->nomor_surat }}">
+                                <span class="text-secondary fw-bold">{{ $surat->nomor_surat }}</span>
+                            </div>
+                        </td>
+                        <td class="text-secondary d-none d-sm-table-cell">
                             <span class="text-nowrap">{{ \Carbon\Carbon::parse($surat->tanggal_surat)->format('d M Y') }}</span>
                         </td>
                         <td>
                             <div class="text-truncate" style="max-width: 250px;" title="{{ $surat->perihal }}">
-                                {{ $surat->perihal }}
+                                <div>{{ $surat->perihal }}</div>
+                                <div class="text-muted small mt-1">
+                                    <span class="d-sm-none">{{ \Carbon\Carbon::parse($surat->tanggal_surat)->format('d M Y') }}</span>
+                                    <span class="d-md-none">{{ $surat->tujuan ? ' • ' . $surat->tujuan : '' }}</span>
+                                    <span class="d-lg-none d-block"><span class="badge badge-outline text-green fw-medium mt-1">{{ $surat->klasifikasi->nama ?? '-' }}</span></span>
+                                </div>
                             </div>
                         </td>
-                        <td class="text-secondary">{{ $surat->tujuan }}</td>
-                        <td><span class="badge bg-green">{{ $surat->klasifikasi->nama ?? '-' }}</span></td>
-                        <td class="text-secondary">
-                            <div class="d-flex align-items-center">
-                                <span class="avatar avatar-xs me-2 rounded" style="background-image: url({{ asset('tabler/img/avatars/avatar-placeholder.png') }})"></span>
+                        <td class="text-secondary d-none d-md-table-cell">
+                            <div class="text-truncate" style="max-width: 120px;" title="{{ $surat->tujuan }}">
+                                {{ $surat->tujuan }}
+                            </div>
+                        </td>
+                        <td class="d-none d-lg-table-cell"><span class="badge badge-outline text-green fw-medium">{{ $surat->klasifikasi->nama ?? '-' }}</span></td>
+                        <td class="text-secondary d-none d-xl-table-cell">
+                            <div class="text-truncate" style="max-width: 120px;" title="{{ $surat->petugas->name ?? '-' }}">
                                 {{ $surat->petugas->name ?? '-' }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="btn-list flex-nowrap">
-                                <a href="{{ route('surat-keluar.show', $surat) }}" class="btn btn-sm btn-ghost-primary" title="View">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                    </svg>
-                                </a>
-                                <a href="{{ route('surat-keluar.edit', $surat) }}" class="btn btn-sm btn-ghost-secondary" title="Edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" />
-                                    </svg>
-                                </a>
-                                <form action="{{ route('surat-keluar.destroy', $surat) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus surat ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-ghost-danger" title="Delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                        </svg>
-                                    </button>
-                                </form>
                             </div>
                         </td>
                     </tr>
