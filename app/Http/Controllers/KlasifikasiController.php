@@ -30,10 +30,14 @@ class KlasifikasiController extends Controller
 
         $validated['is_active'] = $validated['is_active'] ?? true;
 
-        KlasifikasiSurat::create($validated);
-
-        return redirect()->route('klasifikasi.index')
-            ->with('success', 'Klasifikasi surat berhasil ditambahkan.');
+        try {
+            KlasifikasiSurat::create($validated);
+            toast('Klasifikasi surat berhasil ditambahkan.', 'success');
+            return redirect()->route('klasifikasi.index');
+        } catch (\Throwable $e) {
+            alert()->error('Gagal', 'Terjadi kesalahan saat menyimpan klasifikasi.');
+            return back()->withInput();
+        }
     }
 
     public function edit(KlasifikasiSurat $klasifikasi)
@@ -50,9 +54,25 @@ class KlasifikasiController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $klasifikasi->update($validated);
+        try {
+            $klasifikasi->update($validated);
+            toast('Klasifikasi surat berhasil diperbarui.', 'success');
+            return redirect()->route('klasifikasi.index');
+        } catch (\Throwable $e) {
+            alert()->error('Gagal', 'Terjadi kesalahan saat memperbarui klasifikasi.');
+            return back()->withInput();
+        }
+    }
 
-        return redirect()->route('klasifikasi.index')
-            ->with('success', 'Klasifikasi surat berhasil diperbarui.');
+    public function destroy(KlasifikasiSurat $klasifikasi)
+    {
+        try {
+            $klasifikasi->delete();
+            toast('Klasifikasi surat berhasil dihapus.', 'success');
+            return redirect()->route('klasifikasi.index');
+        } catch (\Throwable $e) {
+            alert()->error('Gagal', 'Terjadi kesalahan saat menghapus klasifikasi.');
+            return back();
+        }
     }
 }

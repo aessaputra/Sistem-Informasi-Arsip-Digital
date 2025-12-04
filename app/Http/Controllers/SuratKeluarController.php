@@ -91,11 +91,12 @@ class SuratKeluarController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
             \Illuminate\Support\Facades\DB::commit();
-            return redirect()->route('surat-keluar.index')
-                ->with('success', 'Surat keluar berhasil ditambahkan.');
+            toast('Surat keluar berhasil ditambahkan.', 'success');
+            return redirect()->route('surat-keluar.index');
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\DB::rollBack();
-            return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan surat keluar.');
+            alert()->error('Gagal', 'Terjadi kesalahan saat menyimpan surat keluar.');
+            return back()->withInput();
         }
     }
 
@@ -150,11 +151,12 @@ class SuratKeluarController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
             \Illuminate\Support\Facades\DB::commit();
-            return redirect()->route('surat-keluar.index')
-                ->with('success', 'Surat keluar berhasil diperbarui.');
+            toast('Surat keluar berhasil diperbarui.', 'success');
+            return redirect()->route('surat-keluar.index');
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\DB::rollBack();
-            return back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui surat keluar.');
+            alert()->error('Gagal', 'Terjadi kesalahan saat memperbarui surat keluar.');
+            return back()->withInput();
         }
     }
 
@@ -175,11 +177,12 @@ class SuratKeluarController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
             \Illuminate\Support\Facades\DB::commit();
-            return redirect()->route('surat-keluar.index')
-                ->with('success', 'Surat keluar berhasil dihapus.');
+            toast('Surat keluar berhasil dihapus.', 'success');
+            return redirect()->route('surat-keluar.index');
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat menghapus surat keluar.');
+            alert()->error('Gagal', 'Terjadi kesalahan saat menghapus surat keluar.');
+            return back();
         }
     }
 }

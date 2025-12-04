@@ -6,9 +6,6 @@
                 <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah User</a>
             </div>
         </div>
-        @if(session('success'))
-            <div class="alert alert-success m-3" role="alert">{{ session('success') }}</div>
-        @endif
         <div class="table-responsive">
             <table class="table table-vcenter table-striped table-hover card-table">
                 <thead>
@@ -55,10 +52,10 @@
                                     <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-ghost-secondary" title="Edit">
                                         Edit
                                     </a>
-                                    <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                                    <form id="delete-user-{{ $user->id }}" action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-ghost-danger" title="Delete">Hapus</button>
+                                        <button type="button" class="btn btn-sm btn-ghost-danger" title="Delete" onclick="confirmDelete('delete-user-{{ $user->id }}', 'Hapus User?', 'User ini akan dihapus permanen.')">Hapus</button>
                                     </form>
                                 </div>
                             </td>

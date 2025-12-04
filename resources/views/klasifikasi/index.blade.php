@@ -45,13 +45,11 @@
                                         <input type="hidden" name="is_active" value="{{ $k->is_active ? 0 : 1 }}">
                                         <button type="submit" class="btn btn-sm {{ $k->is_active ? 'btn-warning' : 'btn-success' }}">{{ $k->is_active ? 'Nonaktifkan' : 'Aktifkan' }}</button>
                                     </form>
-                                    @if(\Illuminate\Support\Facades\Route::has('klasifikasi.destroy'))
-                                    <form action="{{ route('klasifikasi.destroy', $k) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                    <form id="delete-klasifikasi-{{ $k->id }}" action="{{ route('klasifikasi.destroy', $k) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('delete-klasifikasi-{{ $k->id }}', 'Hapus Klasifikasi?', 'Klasifikasi surat ini akan dihapus permanen.')">Hapus</button>
                                     </form>
-                                    @endif
                                 </div>
                             </td>
                         </tr>

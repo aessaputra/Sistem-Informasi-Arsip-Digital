@@ -91,11 +91,12 @@ class SuratMasukController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
             \Illuminate\Support\Facades\DB::commit();
-            return redirect()->route('surat-masuk.index')
-                ->with('success', 'Surat masuk berhasil ditambahkan.');
+            toast('Surat masuk berhasil ditambahkan.', 'success');
+            return redirect()->route('surat-masuk.index');
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\DB::rollBack();
-            return back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan surat masuk.');
+            alert()->error('Gagal', 'Terjadi kesalahan saat menyimpan surat masuk.');
+            return back()->withInput();
         }
     }
 
@@ -150,11 +151,12 @@ class SuratMasukController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
             \Illuminate\Support\Facades\DB::commit();
-            return redirect()->route('surat-masuk.index')
-                ->with('success', 'Surat masuk berhasil diperbarui.');
+            toast('Surat masuk berhasil diperbarui.', 'success');
+            return redirect()->route('surat-masuk.index');
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\DB::rollBack();
-            return back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui surat masuk.');
+            alert()->error('Gagal', 'Terjadi kesalahan saat memperbarui surat masuk.');
+            return back()->withInput();
         }
     }
 
@@ -175,11 +177,12 @@ class SuratMasukController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
             \Illuminate\Support\Facades\DB::commit();
-            return redirect()->route('surat-masuk.index')
-                ->with('success', 'Surat masuk berhasil dihapus.');
+            toast('Surat masuk berhasil dihapus.', 'success');
+            return redirect()->route('surat-masuk.index');
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat menghapus surat masuk.');
+            alert()->error('Gagal', 'Terjadi kesalahan saat menghapus surat masuk.');
+            return back();
         }
     }
 }

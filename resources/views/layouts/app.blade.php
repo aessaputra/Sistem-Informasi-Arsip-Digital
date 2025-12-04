@@ -15,6 +15,8 @@
     <link href="{{ asset('tabler/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
     <!-- Custom Sidebar Active State Styles -->
     <link href="{{ asset('css/sidebar-active.css') }}" rel="stylesheet"/>
+    <!-- SweetAlert Dark Mode Theme -->
+    <link href="{{ asset('css/sweetalert-theme.css') }}" rel="stylesheet"/>
     <style>
         @import url('https://rsms.me/inter/inter.css');
         :root {
@@ -26,8 +28,8 @@
     </style>
 </head>
 <body>
-    <!-- Theme script -->
-    <script src="{{ asset('tabler/js/demo-theme.min.js') }}"></script>
+    <!-- Theme script (official Tabler theme handler) -->
+    <script src="{{ asset('tabler/js/tabler-theme.min.js') }}"></script>
     
     <div class="page">
         <!-- Sidebar -->
@@ -57,6 +59,14 @@
     
     <!-- Tabler Core -->
     <script src="{{ asset('tabler/js/tabler.min.js') }}" defer></script>
+    <!-- Custom Theme Toggle -->
+    <script src="{{ asset('js/theme-toggle.js') }}" defer></script>
+    <!-- SweetAlert Delete Confirmation -->
+    <script src="{{ asset('js/sweetalert-delete.js') }}" defer></script>
+    
+    <!-- SweetAlert Notifications -->
+    @include('sweetalert::alert')
+    
     @stack('scripts')
 </body>
 </html>

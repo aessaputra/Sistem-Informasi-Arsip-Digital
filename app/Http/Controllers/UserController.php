@@ -37,11 +37,16 @@ class UserController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         $validated['is_active'] = $validated['is_active'] ?? true;
 
-        $user = User::create(collect($validated)->except('role')->toArray());
-        $user->assignRole($validated['role']);
+        try {
+            $user = User::create(collect($validated)->except('role')->toArray());
+            $user->assignRole($validated['role']);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User berhasil ditambahkan.');
+            toast('User berhasil ditambahkan.', 'success');
+            return redirect()->route('users.index');
+        } catch (\Throwable $e) {
+            alert()->error('Gagal', 'Terjadi kesalahan saat menyimpan user.');
+            return back()->withInput();
+        }
     }
 
     public function edit(User $user)
@@ -67,17 +72,27 @@ class UserController extends Controller
             unset($validated['password']);
         }
 
-        $user->update(collect($validated)->except('role')->toArray());
-        $user->syncRoles([$validated['role']]);
+        try {
+            $user->update(collect($validated)->except('role')->toArray());
+            $user->syncRoles([$validated['role']]);
 
-        return redirect()->route('users.index')
-            ->with('success', 'User berhasil diperbarui.');
+            toast('User berhasil diperbarui.', 'success');
+            return redirect()->route('users.index');
+        } catch (\Throwable $e) {
+            alert()->error('Gagal', 'Terjadi kesalahan saat memperbarui user.');
+            return back()->withInput();
+        }
     }
 
     public function destroy(User $user)
     {
-        $user->delete();
-        return redirect()->route('users.index')
-            ->with('success', 'User berhasil dihapus.');
+        try {
+            $user->delete();
+            toast('User berhasil dihapus.', 'success');
+            return redirect()->route('users.index');
+        } catch (\Throwable $e) {
+            alert()->error('Gagal', 'Terjadi kesalahan saat menghapus user.');
+            return back();
+        }
     }
 }

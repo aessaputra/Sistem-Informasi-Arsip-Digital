@@ -1,0 +1,85 @@
+/* SweetAlert2 Dark Mode Compatibility for Tabler */
+
+/* Auto-detect dark mode and apply styles */
+[data-bs-theme="dark"] .swal2-popup {
+    background: #1e2235 !important;
+    color: #e6e7e9 !important;
+}
+
+[data-bs-theme="dark"] .swal2-title {
+    color: #ffffff !important;
+}
+
+[data-bs-theme="dark"] .swal2-html-container {
+    color: #a8adb5 !important;
+}
+
+[data-bs-theme="dark"] .swal2-icon.swal2-warning {
+    border-color: #fab005 !important;
+    color: #fab005 !important;
+}
+
+[data-bs-theme="dark"] .swal2-icon.swal2-success {
+    border-color: #2fb344 !important;
+    color: #2fb344 !important;
+}
+
+[data-bs-theme="dark"] .swal2-icon.swal2-success [class^=swal2-success-line] {
+    background-color: #2fb344 !important;
+}
+
+[data-bs-theme="dark"] .swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(47, 179, 68, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .swal2-icon.swal2-error {
+    border-color: #d63939 !important;
+    color: #d63939 !important;
+}
+
+[data-bs-theme="dark"] .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    background-color: #d63939 !important;
+}
+
+[data-bs-theme="dark"] .swal2-icon.swal2-info {
+    border-color: #4299e1 !important;
+    color: #4299e1 !important;
+}
+
+/* Toast styling for dark mode */
+[data-bs-theme="dark"] .swal2-popup.swal2-toast {
+    background: #1e2235 !important;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 1px 3px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Confirm and Cancel button styling */
+[data-bs-theme="dark"] .swal2-styled.swal2-confirm {
+    background-color: #206bc4 !important;
+}
+
+[data-bs-theme="dark"] .swal2-styled.swal2-cancel {
+    background-color: #6c757d !important;
+}
+
+/* Input and textarea styling for dark mode */
+[data-bs-theme="dark"] .swal2-input,
+[data-bs-theme="dark"] .swal2-textarea,
+[data-bs-theme="dark"] .swal2-select {
+    background-color: #1a1c2e !important;
+    color: #e6e7e9 !important;
+    border-color: #3a3f5c !important;
+}
+
+/* Timer progress bar */
+[data-bs-theme="dark"] .swal2-timer-progress-bar {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Close button */
+[data-bs-theme="dark"] .swal2-close {
+    color: #a8adb5 !important;
+}
+
+[data-bs-theme="dark"] .swal2-close:hover {
+    color: #ffffff !important;
+}

@@ -22,7 +22,7 @@
     </style>
   </head>
   <body  class=" d-flex flex-column">
-    <script src="{{ asset('tabler/js/demo-theme.min.js') }}"></script>
+    <script src="{{ asset('tabler/js/tabler-theme.min.js') }}"></script>
     <div class="page page-center">
       <div class="container container-tight py-4">
         @hasSection('hide_brand')

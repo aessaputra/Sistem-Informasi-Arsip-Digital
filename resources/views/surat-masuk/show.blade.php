@@ -8,10 +8,10 @@
             <div class="btn-list">
                 <a href="{{ route('surat-masuk.index') }}" class="btn btn-sm btn-secondary">Kembali</a>
                 <a href="{{ route('surat-masuk.edit', $suratMasuk) }}" class="btn btn-sm btn-primary">Edit</a>
-                <form action="{{ route('surat-masuk.destroy', $suratMasuk) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus surat ini?')">
+                <form id="delete-form-{{ $suratMasuk->id }}" action="{{ route('surat-masuk.destroy', $suratMasuk) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('delete-form-{{ $suratMasuk->id }}', 'Hapus Surat Masuk?', 'Surat masuk ini akan dihapus permanen.')">Hapus</button>
                 </form>
             </div>
         </div>
