@@ -30,10 +30,6 @@
                 <div class="d-flex flex-wrap justify-content-evenly gap-2">
                     <a href="{{ route('surat-masuk.create') }}" class="btn btn-success btn-lg flex-fill">Tambah Surat Masuk</a>
                     <a href="{{ route('surat-keluar.create') }}" class="btn btn-warning btn-lg flex-fill">Tambah Surat Keluar</a>
-                    @role('admin')
-                    <a href="{{ route('users.index') }}" class="btn btn-primary btn-lg flex-fill">Manajemen User</a>
-                    <a href="{{ route('log-aktivitas.index') }}" class="btn btn-secondary btn-lg flex-fill">Log Aktivitas</a>
-                    @endrole
                 </div>
             </div>
         </div>
