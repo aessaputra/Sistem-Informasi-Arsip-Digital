@@ -45,6 +45,33 @@
                         <span class="nav-link-title">Surat Keluar</span>
                     </a>
                 </li>
+                <li class="nav-item dropdown {{ request()->routeIs('laporan.*') ? 'active' : '' }}">
+                    <a class="nav-link dropdown-toggle" href="#navbar-laporan" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="{{ request()->routeIs('laporan.*') ? 'true' : 'false' }}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                                <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
+                                <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
+                                <path d="M9 12h6"></path>
+                                <path d="M9 16h6"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">Laporan</span>
+                    </a>
+                    <div class="dropdown-menu {{ request()->routeIs('laporan.*') ? 'show' : '' }}">
+                        <a class="dropdown-item {{ request()->routeIs('laporan.agenda-surat-masuk') ? 'active' : '' }}" href="{{ route('laporan.agenda-surat-masuk') }}">
+                            Agenda Surat Masuk
+                        </a>
+                        <a class="dropdown-item {{ request()->routeIs('laporan.agenda-surat-keluar') ? 'active' : '' }}" href="{{ route('laporan.agenda-surat-keluar') }}">
+                            Agenda Surat Keluar
+                        </a>
+                        <a class="dropdown-item {{ request()->routeIs('laporan.rekap-periode') ? 'active' : '' }}" href="{{ route('laporan.rekap-periode') }}">
+                            Rekap Periode
+                        </a>
+                        <a class="dropdown-item {{ request()->routeIs('laporan.rekap-klasifikasi') ? 'active' : '' }}" href="{{ route('laporan.rekap-klasifikasi') }}">
+                            Rekap Klasifikasi
+                        </a>
+                    </div>
+                </li>
                 @if(auth()->user()?->hasRole('admin'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('klasifikasi.*') ? 'active' : '' }}" href="{{ route('klasifikasi.index') }}">
