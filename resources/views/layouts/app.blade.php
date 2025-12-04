@@ -13,6 +13,8 @@
     <link href="{{ asset('tabler/css/tabler-flags.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-payments.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-vendors.min.css') }}" rel="stylesheet"/>
+    <!-- Custom Sidebar Active State Styles -->
+    <link href="{{ asset('css/sidebar-active.css') }}" rel="stylesheet"/>
     <style>
         @import url('https://rsms.me/inter/inter.css');
         :root {

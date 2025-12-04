@@ -1,0 +1,138 @@
+/**
+ * Custom Sidebar Active State Styles
+ * Best practice: Use inherit color and only change background
+ * Text color remains unchanged for theme compatibility
+ */
+
+/* ===================================
+   CSS Custom Properties
+   Using transparent backgrounds only - text color inherited from Tabler
+   =================================== */
+:root {
+    /* Active state backgrounds - transparent only */
+    --sidebar-active-bg: rgba(var(--tblr-primary-rgb), 0.15);
+    --sidebar-active-bg-hover: rgba(var(--tblr-primary-rgb), 0.25);
+
+    /* Hover state - very subtle */
+    --sidebar-hover-bg: rgba(var(--tblr-primary-rgb), 0.08);
+
+    /* Dropdown active state */
+    --sidebar-dropdown-active-bg: rgba(var(--tblr-primary-rgb), 0.12);
+
+    /* Border accent for active items */
+    --sidebar-active-border: var(--tblr-primary);
+}
+
+/* ===================================
+   Sidebar Nav Link Active State
+   Best practice: Only modify background, let text inherit
+   =================================== */
+
+/* Active nav-link in vertical navbar (sidebar) */
+.navbar-vertical .nav-link.active {
+    background-color: var(--sidebar-active-bg) !important;
+    /* DO NOT change color - inherit from Tabler for theme compatibility */
+    border-radius: var(--tblr-border-radius, 0.375rem);
+    /* Left border accent for clear visual indication */
+    border-left: 3px solid var(--sidebar-active-border);
+    margin-left: -3px;
+    font-weight: 500;
+}
+
+/* ===================================
+   Dropdown Menu Active State
+   =================================== */
+
+/* Active dropdown-item in sidebar dropdown menu */
+.navbar-vertical .dropdown-menu .dropdown-item.active {
+    background-color: var(--sidebar-active-bg) !important;
+    /* DO NOT change color - inherit from Tabler */
+    border-radius: var(--tblr-border-radius-sm, 0.25rem);
+    font-weight: 500;
+    /* Left border accent for dropdown items */
+    border-left: 2px solid var(--sidebar-active-border);
+    padding-left: calc(1rem - 2px);
+}
+
+/* Hover state for dropdown items */
+.navbar-vertical .dropdown-menu .dropdown-item:hover:not(.active) {
+    background-color: var(--sidebar-hover-bg);
+    border-radius: var(--tblr-border-radius-sm, 0.25rem);
+}
+
+/* ===================================
+   Dropdown Parent Active State
+   =================================== */
+
+/* Parent dropdown toggle when any child is active */
+.navbar-vertical .nav-item.dropdown.active>.nav-link.dropdown-toggle {
+    background-color: var(--sidebar-dropdown-active-bg) !important;
+    border-radius: var(--tblr-border-radius, 0.375rem);
+    /* DO NOT change color - inherit from Tabler */
+}
+
+/* ===================================
+   Dark Theme Adjustments
+   Slightly higher opacity for better visibility on dark backgrounds
+   =================================== */
+
+[data-bs-theme="dark"] {
+    --sidebar-active-bg: rgba(var(--tblr-primary-rgb), 0.2);
+    --sidebar-active-bg-hover: rgba(var(--tblr-primary-rgb), 0.3);
+    --sidebar-hover-bg: rgba(var(--tblr-primary-rgb), 0.1);
+    --sidebar-dropdown-active-bg: rgba(var(--tblr-primary-rgb), 0.15);
+}
+
+/* ===================================
+   Light Theme Adjustments
+   Slightly lower opacity for subtle effect on light backgrounds
+   =================================== */
+
+[data-bs-theme="light"] {
+    --sidebar-active-bg: rgba(var(--tblr-primary-rgb), 0.12);
+    --sidebar-active-bg-hover: rgba(var(--tblr-primary-rgb), 0.2);
+    --sidebar-hover-bg: rgba(var(--tblr-primary-rgb), 0.06);
+    --sidebar-dropdown-active-bg: rgba(var(--tblr-primary-rgb), 0.1);
+}
+
+/* ===================================
+   Hover Effects
+   =================================== */
+
+/* Non-active nav-link hover */
+.navbar-vertical .nav-link:not(.active):hover {
+    background-color: var(--sidebar-hover-bg);
+    border-radius: var(--tblr-border-radius, 0.375rem);
+}
+
+/* Active nav-link hover - slightly stronger */
+.navbar-vertical .nav-link.active:hover {
+    background-color: var(--sidebar-active-bg-hover) !important;
+}
+
+/* ===================================
+   Transition Effects
+   =================================== */
+
+.navbar-vertical .nav-link {
+    transition: background-color 0.15s ease-in-out;
+}
+
+.navbar-vertical .dropdown-menu .dropdown-item {
+    transition: background-color 0.15s ease-in-out;
+}
+
+/* ===================================
+   Focus States (Accessibility)
+   =================================== */
+
+.navbar-vertical .nav-link:focus-visible {
+    outline: 2px solid var(--sidebar-active-border);
+    outline-offset: 2px;
+    border-radius: var(--tblr-border-radius, 0.375rem);
+}
+
+.navbar-vertical .dropdown-menu .dropdown-item:focus-visible {
+    outline: 2px solid var(--sidebar-active-border);
+    outline-offset: 1px;
+}
