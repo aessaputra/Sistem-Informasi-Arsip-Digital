@@ -318,14 +318,25 @@ class LaporanController extends Controller
      */
     private function getAvailableYears()
     {
-        $masukYears = SuratMasuk::selectRaw('YEAR(tanggal_surat) as year')
+        $driver = config('database.default');
+        $yearExpression = $driver === 'sqlite' 
+            ? "strftime('%Y', tanggal_surat) as year"
+            : 'YEAR(tanggal_surat) as year';
+
+        // Get years from surat_masuk
+        $masukYears = SuratMasuk::selectRaw($yearExpression)
             ->distinct()
             ->pluck('year')
+            ->filter()
+            ->map(fn($year) => (int) $year)
             ->toArray();
 
-        $keluarYears = SuratKeluar::selectRaw('YEAR(tanggal_surat) as year')
+        // Get years from surat_keluar
+        $keluarYears = SuratKeluar::selectRaw($yearExpression)
             ->distinct()
             ->pluck('year')
+            ->filter()
+            ->map(fn($year) => (int) $year)
             ->toArray();
 
         $years = array_unique(array_merge($masukYears, $keluarYears));

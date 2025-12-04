@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LampiranSurat extends Model
 {
+    use HasFactory;
     protected $table = 'lampiran_surat';
 
     protected $fillable = [
