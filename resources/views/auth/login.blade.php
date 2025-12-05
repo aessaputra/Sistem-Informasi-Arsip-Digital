@@ -12,14 +12,7 @@
                     @enderror
                 </div>
                 <div class="mb-2">
-                    <label class="form-label">
-                        Password
-                        @if (Route::has('password.request'))
-                            <span class="form-label-description">
-                                <a href="{{ route('password.request') }}">Lupa password?</a>
-                            </span>
-                        @endif
-                    </label>
+                    <label class="form-label">Password</label>
                     <div class="input-group input-group-flat">
                         <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan password" required autocomplete="current-password">
                         <span class="input-group-text">
