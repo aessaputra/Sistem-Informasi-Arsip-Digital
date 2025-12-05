@@ -1,10 +1,6 @@
 <section>
     <p class="text-muted">Update informasi profil dan alamat email Anda.</p>
 
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
-    </form>
-
     <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
         @csrf
         @method('patch')
@@ -25,18 +21,6 @@
             <label class="form-label" for="email">Email</label>
             <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}" required autocomplete="username">
             @error('email')<div class="text-danger small">{{ $message }}</div>@enderror
-
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div class="mt-2">
-                    <p class="text-muted">
-                        Email Anda belum terverifikasi.
-                        <button form="send-verification" class="btn btn-link p-0">Kirim ulang tautan verifikasi</button>
-                    </p>
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="text-success">Tautan verifikasi baru telah dikirim ke email Anda.</p>
-                    @endif
-                </div>
-            @endif
         </div>
 
         <div class="mb-3">
