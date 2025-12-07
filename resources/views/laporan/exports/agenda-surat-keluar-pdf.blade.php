@@ -90,7 +90,12 @@
             </tr>
             <tr>
                 <td><strong>Total Data:</strong></td>
-                <td>{{ $suratKeluar->count() }} surat</td>
+                <td>
+                    {{ $suratKeluar->count() }} surat
+                    @if(isset($filters['is_limited']) && $filters['is_limited'])
+                        <span style="color: #e53e3e;">(dari {{ $filters['total_count'] ?? 'banyak' }} total - gunakan Excel untuk data lengkap)</span>
+                    @endif
+                </td>
                 <td></td>
                 <td></td>
             </tr>

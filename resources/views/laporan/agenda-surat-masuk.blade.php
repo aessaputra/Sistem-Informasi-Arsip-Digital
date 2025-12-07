@@ -51,14 +51,14 @@
                         Reset
                     </a>
                     <div class="ms-auto d-flex gap-2">
-                        <a href="{{ route('laporan.agenda-surat-masuk.excel', request()->query()) }}" class="btn btn-success">
+                        <button type="button" class="btn btn-success" id="btn-export-excel" data-url="{{ route('laporan.agenda-surat-masuk.excel', request()->query()) }}" data-total="{{ $suratMasuk->total() }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M10 12l4 5" /><path d="M10 17l4 -5" /></svg>
                             Export Excel
-                        </a>
-                        <a href="{{ route('laporan.agenda-surat-masuk.pdf', request()->query()) }}" class="btn btn-danger">
+                        </button>
+                        <button type="button" class="btn btn-danger" id="btn-export-pdf" data-url="{{ route('laporan.agenda-surat-masuk.pdf', request()->query()) }}" data-total="{{ $suratMasuk->total() }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M10 13l-1 2l1 2" /><path d="M14 13l1 2l-1 2" /></svg>
                             Export PDF
-                        </a>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -139,3 +139,138 @@
         @endif
     </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Export Excel Handler
+    const btnExportExcel = document.getElementById('btn-export-excel');
+    if (btnExportExcel) {
+        btnExportExcel.addEventListener('click', function() {
+            const url = this.dataset.url;
+            const total = parseInt(this.dataset.total) || 0;
+
+            let infoHtml = '';
+            if (total > 500) {
+                infoHtml = `
+                    <div style="background-color: #d1e7dd; border: 1px solid #198754; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: left;">
+                        <div style="font-weight: 600; color: #0f5132; margin-bottom: 8px;">📊 Export Excel</div>
+                        <div style="color: #0f5132; font-size: 14px; line-height: 1.5;">
+                            Data berjumlah <strong>${total.toLocaleString()}</strong> surat akan diexport ke Excel. Proses mungkin membutuhkan waktu beberapa saat.
+                        </div>
+                    </div>
+                `;
+            }
+
+            Swal.fire({
+                title: 'Export Excel',
+                html: `
+                    ${infoHtml}
+                    <p style="margin: 0; color: #666;">Apakah Anda yakin ingin mengunduh laporan dalam format Excel?</p>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '📥 Ya, Export Excel',
+                cancelButtonText: 'Batal',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.src = url;
+                        document.body.appendChild(iframe);
+                        setTimeout(() => resolve(true), 2000);
+                    });
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'File Excel sedang diunduh...',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                }
+            });
+        });
+    }
+
+    // Export PDF Handler
+    const btnExportPdf = document.getElementById('btn-export-pdf');
+    if (btnExportPdf) {
+        btnExportPdf.addEventListener('click', function() {
+            const url = this.dataset.url;
+            const total = parseInt(this.dataset.total) || 0;
+            const pdfLimit = 500;
+
+            let warningHtml = '';
+            if (total > pdfLimit) {
+                warningHtml = `
+                    <div style="background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: left;">
+                        <div style="font-weight: 600; color: #856404; margin-bottom: 8px;">⚠️ Perhatian</div>
+                        <div style="color: #856404; font-size: 14px; line-height: 1.5;">
+                            Data Anda berjumlah <strong>${total.toLocaleString()}</strong> surat, namun PDF hanya menampilkan maksimal <strong>${pdfLimit}</strong> data.
+                        </div>
+                        <div style="color: #856404; font-size: 13px; margin-top: 8px;">
+                            💡 Gunakan <strong>Export Excel</strong> untuk mengunduh seluruh data.
+                        </div>
+                    </div>
+                `;
+            } else if (total > 200) {
+                warningHtml = `
+                    <div style="background-color: #cff4fc; border: 1px solid #0dcaf0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; text-align: left;">
+                        <div style="font-weight: 600; color: #055160; margin-bottom: 8px;">ℹ️ Info</div>
+                        <div style="color: #055160; font-size: 14px; line-height: 1.5;">
+                            Data berjumlah <strong>${total.toLocaleString()}</strong> surat. Proses generate PDF mungkin membutuhkan waktu beberapa detik.
+                        </div>
+                    </div>
+                `;
+            }
+
+            Swal.fire({
+                title: 'Export PDF',
+                html: `
+                    ${warningHtml}
+                    <p style="margin: 0; color: #666;">Apakah Anda yakin ingin mengunduh laporan dalam format PDF?</p>
+                `,
+                icon: total > pdfLimit ? 'warning' : 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d63939',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '📄 Ya, Export PDF',
+                cancelButtonText: 'Batal',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.src = url;
+                        document.body.appendChild(iframe);
+                        setTimeout(() => resolve(true), 2000);
+                    });
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'File PDF sedang diunduh...',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                }
+            });
+        });
+    }
+});
+</script>
+@endpush

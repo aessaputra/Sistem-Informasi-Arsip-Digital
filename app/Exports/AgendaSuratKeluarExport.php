@@ -4,25 +4,44 @@ namespace App\Exports;
 
 use App\Models\SuratKeluar;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Database\Eloquent\Builder;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class AgendaSuratKeluarExport implements FromCollection, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+class AgendaSuratKeluarExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
 {
     protected $request;
+    protected int $rowNumber = 0;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    public function collection()
+    /**
+     * Return query builder for chunked processing.
+     * Laravel Excel will automatically chunk this query.
+     */
+    public function query(): Builder
     {
-        $query = SuratKeluar::with(['petugas', 'klasifikasi']);
+        $query = SuratKeluar::query()
+            ->select([
+                'id',
+                'tanggal_surat',
+                'nomor_surat',
+                'perihal',
+                'dari',
+                'tujuan',
+                'tanggal_keluar',
+                'klasifikasi_surat_id',
+                'petugas_input_id',
+                'keterangan',
+            ])
+            ->with(['petugas:id,name', 'klasifikasi:id,nama']);
 
         if ($this->request->filled('tanggal_dari')) {
             $query->whereDate('tanggal_surat', '>=', $this->request->tanggal_dari);
@@ -40,7 +59,7 @@ class AgendaSuratKeluarExport implements FromCollection, WithHeadings, WithMappi
             $query->where('klasifikasi_surat_id', $this->request->klasifikasi_surat_id);
         }
 
-        return $query->orderBy('tanggal_surat', 'desc')->get();
+        return $query->orderBy('tanggal_surat', 'desc');
     }
 
     public function headings(): array
@@ -61,11 +80,10 @@ class AgendaSuratKeluarExport implements FromCollection, WithHeadings, WithMappi
 
     public function map($surat): array
     {
-        static $no = 0;
-        $no++;
+        $this->rowNumber++;
 
         return [
-            $no,
+            $this->rowNumber,
             $surat->tanggal_surat ? $surat->tanggal_surat->format('d/m/Y') : '-',
             $surat->nomor_surat,
             $surat->perihal,

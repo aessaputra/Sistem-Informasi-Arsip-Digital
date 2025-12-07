@@ -32,14 +32,14 @@
                         </button>
                     </div>
                     <div class="col-12 col-lg-6 ms-auto text-end">
-                        <a href="{{ route('laporan.rekap-periode.excel', ['tahun' => $tahun]) }}" class="btn btn-success">
+                        <button type="button" class="btn btn-success" id="btn-export-excel" data-url="{{ route('laporan.rekap-periode.excel', ['tahun' => $tahun]) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M10 12l4 5" /><path d="M10 17l4 -5" /></svg>
                             Export Excel
-                        </a>
-                        <a href="{{ route('laporan.rekap-periode.pdf', ['tahun' => $tahun]) }}" class="btn btn-danger">
+                        </button>
+                        <button type="button" class="btn btn-danger" id="btn-export-pdf" data-url="{{ route('laporan.rekap-periode.pdf', ['tahun' => $tahun]) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M10 13l-1 2l1 2" /><path d="M14 13l1 2l-1 2" /></svg>
                             Export PDF
-                        </a>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -143,6 +143,7 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    // ApexCharts
     var options = {
         chart: {
             type: 'bar',
@@ -174,6 +175,90 @@ document.addEventListener("DOMContentLoaded", function() {
     };
     var chart = new ApexCharts(document.querySelector("#chart-periode"), options);
     chart.render();
+
+    // SweetAlert Excel Export
+    const btnExportExcel = document.getElementById('btn-export-excel');
+    if (btnExportExcel) {
+        btnExportExcel.addEventListener('click', function() {
+            const url = this.dataset.url;
+
+            Swal.fire({
+                title: 'Export Excel',
+                text: 'Apakah Anda yakin ingin mengunduh laporan dalam format Excel?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '📥 Ya, Export Excel',
+                cancelButtonText: 'Batal',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.src = url;
+                        document.body.appendChild(iframe);
+                        setTimeout(() => resolve(true), 1500);
+                    });
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'File Excel sedang diunduh...',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                }
+            });
+        });
+    }
+
+    // SweetAlert PDF Export
+    const btnExportPdf = document.getElementById('btn-export-pdf');
+    if (btnExportPdf) {
+        btnExportPdf.addEventListener('click', function() {
+            const url = this.dataset.url;
+
+            Swal.fire({
+                title: 'Export PDF',
+                text: 'Apakah Anda yakin ingin mengunduh laporan dalam format PDF?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d63939',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '📄 Ya, Export PDF',
+                cancelButtonText: 'Batal',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => !Swal.isLoading(),
+                preConfirm: () => {
+                    return new Promise((resolve) => {
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.src = url;
+                        document.body.appendChild(iframe);
+                        setTimeout(() => resolve(true), 1500);
+                    });
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'File PDF sedang diunduh...',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                }
+            });
+        });
+    }
 });
 </script>
 @endpush

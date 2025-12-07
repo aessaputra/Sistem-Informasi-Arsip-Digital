@@ -61,7 +61,18 @@ class LaporanController extends Controller
      */
     public function exportAgendaMasukPdf(Request $request)
     {
-        $query = SuratMasuk::with(['petugas', 'klasifikasi']);
+        $query = SuratMasuk::query()
+            ->select([
+                'id',
+                'tanggal_surat',
+                'nomor_surat',
+                'perihal',
+                'dari',
+                'kepada',
+                'tanggal_surat_masuk',
+                'klasifikasi_surat_id',
+            ])
+            ->with(['klasifikasi:id,nama']);
 
         if ($request->filled('tanggal_dari')) {
             $query->whereDate('tanggal_surat', '>=', $request->tanggal_dari);
@@ -79,11 +90,20 @@ class LaporanController extends Controller
             $query->where('klasifikasi_surat_id', $request->klasifikasi_surat_id);
         }
 
-        $suratMasuk = $query->orderBy('tanggal_surat', 'desc')->get();
+        // Limit to 500 records for PDF to prevent memory exhaustion (DomPDF is memory-intensive)
+        // For larger exports, use Excel format which supports chunking
+        $limit = 500;
+        $suratMasuk = $query->orderBy('tanggal_surat', 'desc')->limit($limit)->get();
+        $totalCount = $query->count();
         $filters = $request->only(['tanggal_dari', 'tanggal_sampai', 'nomor_surat', 'pengirim', 'klasifikasi_surat_id']);
+        $filters['is_limited'] = $totalCount > $limit;
+        $filters['limit'] = $limit;
+        $filters['total_count'] = $totalCount;
 
         $pdf = Pdf::loadView('laporan.exports.agenda-surat-masuk-pdf', compact('suratMasuk', 'filters'))
-            ->setPaper('a4', 'landscape');
+            ->setPaper('a4', 'landscape')
+            ->setOption('isRemoteEnabled', false)
+            ->setOption('isHtml5ParserEnabled', true);
 
         return $pdf->download('agenda_surat_masuk_' . now()->format('Y-m-d_His') . '.pdf');
     }
@@ -131,7 +151,18 @@ class LaporanController extends Controller
      */
     public function exportAgendaKeluarPdf(Request $request)
     {
-        $query = SuratKeluar::with(['petugas', 'klasifikasi']);
+        $query = SuratKeluar::query()
+            ->select([
+                'id',
+                'tanggal_surat',
+                'nomor_surat',
+                'perihal',
+                'dari',
+                'tujuan',
+                'tanggal_keluar',
+                'klasifikasi_surat_id',
+            ])
+            ->with(['klasifikasi:id,nama']);
 
         if ($request->filled('tanggal_dari')) {
             $query->whereDate('tanggal_surat', '>=', $request->tanggal_dari);
@@ -149,11 +180,20 @@ class LaporanController extends Controller
             $query->where('klasifikasi_surat_id', $request->klasifikasi_surat_id);
         }
 
-        $suratKeluar = $query->orderBy('tanggal_surat', 'desc')->get();
+        // Limit to 500 records for PDF to prevent memory exhaustion (DomPDF is memory-intensive)
+        // For larger exports, use Excel format which supports chunking
+        $limit = 500;
+        $suratKeluar = $query->orderBy('tanggal_surat', 'desc')->limit($limit)->get();
+        $totalCount = $query->count();
         $filters = $request->only(['tanggal_dari', 'tanggal_sampai', 'nomor_surat', 'tujuan', 'klasifikasi_surat_id']);
+        $filters['is_limited'] = $totalCount > $limit;
+        $filters['limit'] = $limit;
+        $filters['total_count'] = $totalCount;
 
         $pdf = Pdf::loadView('laporan.exports.agenda-surat-keluar-pdf', compact('suratKeluar', 'filters'))
-            ->setPaper('a4', 'landscape');
+            ->setPaper('a4', 'landscape')
+            ->setOption('isRemoteEnabled', false)
+            ->setOption('isHtml5ParserEnabled', true);
 
         return $pdf->download('agenda_surat_keluar_' . now()->format('Y-m-d_His') . '.pdf');
     }
