@@ -143,12 +143,19 @@
             </table>
         </div>
         @if($suratKeluar->hasPages())
-        <div class="card-footer d-flex align-items-center">
-            <p class="m-0 text-secondary">Showing {{ $suratKeluar->firstItem() }} to {{ $suratKeluar->lastItem() }} of {{ $suratKeluar->total() }} entries</p>
-            <ul class="pagination m-0 ms-auto">
-                {{ $suratKeluar->links() }}
-            </ul>
+        <div class="card-footer">
+            <div class="row g-2 justify-content-center justify-content-sm-between">
+                <div class="col-auto d-flex align-items-center">
+                    <p class="m-0 text-secondary">
+                        Menampilkan <strong>{{ $suratKeluar->firstItem() }} - {{ $suratKeluar->lastItem() }}</strong> dari <strong>{{ $suratKeluar->total() }} data</strong>
+                    </p>
+                </div>
+                <div class="col-auto">
+                    {{ $suratKeluar->withQueryString()->links() }}
+                </div>
+            </div>
         </div>
         @endif
     </div>
 @endsection
+

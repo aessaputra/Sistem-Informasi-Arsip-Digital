@@ -143,12 +143,19 @@
             </table>
         </div>
         @if($suratMasuk->hasPages())
-        <div class="card-footer d-flex align-items-center">
-            <p class="m-0 text-secondary">Showing {{ $suratMasuk->firstItem() }} to {{ $suratMasuk->lastItem() }} of {{ $suratMasuk->total() }} entries</p>
-            <ul class="pagination m-0 ms-auto">
-                {{ $suratMasuk->links() }}
-            </ul>
+        <div class="card-footer">
+            <div class="row g-2 justify-content-center justify-content-sm-between">
+                <div class="col-auto d-flex align-items-center">
+                    <p class="m-0 text-secondary">
+                        Menampilkan <strong>{{ $suratMasuk->firstItem() }} - {{ $suratMasuk->lastItem() }}</strong> dari <strong>{{ $suratMasuk->total() }} data</strong>
+                    </p>
+                </div>
+                <div class="col-auto">
+                    {{ $suratMasuk->withQueryString()->links() }}
+                </div>
+            </div>
         </div>
         @endif
     </div>
 @endsection
+
