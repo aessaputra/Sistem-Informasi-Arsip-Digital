@@ -34,8 +34,8 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="btn-list">
-                                    <a href="{{ route('klasifikasi.edit', $k) }}" class="btn btn-secondary btn-sm">Edit</a>
+                                <div class="btn-list flex-nowrap">
+                                    <a href="{{ route('klasifikasi.edit', $k) }}" class="btn btn-sm btn-ghost-secondary" title="Edit">Edit</a>
                                     <form action="{{ route('klasifikasi.update', $k) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('PUT')
@@ -43,12 +43,12 @@
                                         <input type="hidden" name="nama" value="{{ $k->nama }}">
                                         <input type="hidden" name="keterangan" value="{{ $k->keterangan }}">
                                         <input type="hidden" name="is_active" value="{{ $k->is_active ? 0 : 1 }}">
-                                        <button type="submit" class="btn btn-sm {{ $k->is_active ? 'btn-warning' : 'btn-success' }}">{{ $k->is_active ? 'Nonaktifkan' : 'Aktifkan' }}</button>
+                                        <button type="submit" class="btn btn-sm {{ $k->is_active ? 'btn-ghost-warning' : 'btn-ghost-success' }}" title="{{ $k->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">{{ $k->is_active ? 'Nonaktifkan' : 'Aktifkan' }}</button>
                                     </form>
                                     <form id="delete-klasifikasi-{{ $k->id }}" action="{{ route('klasifikasi.destroy', $k) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('delete-klasifikasi-{{ $k->id }}', 'Hapus Klasifikasi?', 'Klasifikasi surat ini akan dihapus permanen.')">Hapus</button>
+                                        <button type="button" class="btn btn-sm btn-ghost-danger" title="Hapus" onclick="confirmDelete('delete-klasifikasi-{{ $k->id }}', 'Hapus Klasifikasi?', 'Klasifikasi surat ini akan dihapus permanen.')">Hapus</button>
                                     </form>
                                 </div>
                             </td>

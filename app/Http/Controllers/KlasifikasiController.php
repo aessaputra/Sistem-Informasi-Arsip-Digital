@@ -67,11 +67,35 @@ class KlasifikasiController extends Controller
     public function destroy(KlasifikasiSurat $klasifikasi)
     {
         try {
+            // Cek surat aktif (non-deleted) - hanya ini yang menghalangi penghapusan
+            $activeMasuk = $klasifikasi->suratMasuk()->count();
+            $activeKeluar = $klasifikasi->suratKeluar()->count();
+            
+            if ($activeMasuk > 0 || $activeKeluar > 0) {
+                $message = "Klasifikasi tidak dapat dihapus karena masih digunakan oleh {$activeMasuk} surat masuk dan {$activeKeluar} surat keluar.";
+                alert()->error('Gagal Menghapus', $message);
+                return back();
+            }
+
+            // ForceDelete soft-deleted surat yang masih mereferensikan klasifikasi ini
+            $trashedMasuk = $klasifikasi->suratMasuk()->onlyTrashed()->count();
+            $trashedKeluar = $klasifikasi->suratKeluar()->onlyTrashed()->count();
+            
+            if ($trashedMasuk > 0) {
+                $klasifikasi->suratMasuk()->onlyTrashed()->forceDelete();
+            }
+            if ($trashedKeluar > 0) {
+                $klasifikasi->suratKeluar()->onlyTrashed()->forceDelete();
+            }
+
             $klasifikasi->delete();
+            
             toast('Klasifikasi surat berhasil dihapus.', 'success');
+            
             return redirect()->route('klasifikasi.index');
         } catch (\Throwable $e) {
-            alert()->error('Gagal', 'Terjadi kesalahan saat menghapus klasifikasi.');
+            \Log::error('Error deleting klasifikasi: ' . $e->getMessage());
+            alert()->error('Gagal', 'Terjadi kesalahan: ' . $e->getMessage());
             return back();
         }
     }

@@ -116,7 +116,7 @@
                                 <td>{{ optional($s->tanggal_surat_masuk)->format('Y-m-d') ?? '-' }}</td>
                                 <td>{{ $s->nomor_surat }}</td>
                                 <td>{{ $s->perihal }}</td>
-                                <td>{{ $s->klasifikasi->nama ?? '-' }}</td>
+                                <td><span class="badge badge-outline text-blue fw-medium">{{ $s->klasifikasi->nama ?? '-' }}</span></td>
                             </tr>
                         @empty
                             <tr><td colspan="4" class="text-center">Tidak ada data</td></tr>
@@ -147,7 +147,7 @@
                                 <td>{{ optional($s->tanggal_keluar)->format('Y-m-d') ?? '-' }}</td>
                                 <td>{{ $s->nomor_surat }}</td>
                                 <td>{{ $s->perihal }}</td>
-                                <td>{{ $s->klasifikasi->nama ?? '-' }}</td>
+                                <td><span class="badge badge-outline text-green fw-medium">{{ $s->klasifikasi->nama ?? '-' }}</span></td>
                             </tr>
                         @empty
                             <tr><td colspan="4" class="text-center">Tidak ada data</td></tr>
@@ -183,7 +183,7 @@
                                 <td>{{ $log->created_at->format('Y-m-d H:i') }}</td>
                                 <td>{{ $log->user?->name ?? '-' }}</td>
                                 <td>
-                                    <span class="badge {{ $log->aksi === 'create' ? 'bg-success' : ($log->aksi === 'update' ? 'bg-primary' : 'bg-danger') }}">{{ ucfirst($log->aksi) }}</span>
+                                    <span class="badge badge-outline {{ $log->aksi === 'create' ? 'text-success' : ($log->aksi === 'update' ? 'text-primary' : 'text-danger') }}">{{ ucfirst($log->aksi) }}</span>
                                 </td>
                                 <td>{{ str_replace('_', ' ', $log->modul) }}</td>
                                 <td>{{ $log->reference_id }}</td>

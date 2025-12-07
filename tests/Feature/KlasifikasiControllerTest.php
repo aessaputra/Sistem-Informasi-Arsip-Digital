@@ -156,4 +156,36 @@ class KlasifikasiControllerTest extends TestCase
         $response->assertRedirect(route('klasifikasi.index'));
         $this->assertDatabaseMissing('klasifikasi_surat', ['id' => $klasifikasi->id]);
     }
+
+    public function test_admin_cannot_delete_klasifikasi_with_surat_masuk(): void
+    {
+        $klasifikasi = KlasifikasiSurat::factory()->create();
+
+        // Create surat masuk using this klasifikasi
+        \App\Models\SuratMasuk::factory()->create([
+            'klasifikasi_surat_id' => $klasifikasi->id,
+            'petugas_input_id' => $this->admin->id,
+        ]);
+
+        $response = $this->actingAs($this->admin)->delete(route('klasifikasi.destroy', $klasifikasi));
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('klasifikasi_surat', ['id' => $klasifikasi->id]);
+    }
+
+    public function test_admin_cannot_delete_klasifikasi_with_surat_keluar(): void
+    {
+        $klasifikasi = KlasifikasiSurat::factory()->create();
+
+        // Create surat keluar using this klasifikasi
+        \App\Models\SuratKeluar::factory()->create([
+            'klasifikasi_surat_id' => $klasifikasi->id,
+            'petugas_input_id' => $this->admin->id,
+        ]);
+
+        $response = $this->actingAs($this->admin)->delete(route('klasifikasi.destroy', $klasifikasi));
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('klasifikasi_surat', ['id' => $klasifikasi->id]);
+    }
 }

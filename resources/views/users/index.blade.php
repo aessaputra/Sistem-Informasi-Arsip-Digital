@@ -42,9 +42,9 @@
                             </td>
                             <td>
                                 @if($user->is_active)
-                                    <span class="badge bg-success text-white fw-bold">Aktif</span>
+                                    <span class="badge badge-outline text-success fw-bold">Aktif</span>
                                 @else
-                                    <span class="badge bg-danger text-white fw-bold">Nonaktif</span>
+                                    <span class="badge badge-outline text-danger fw-bold">Nonaktif</span>
                                 @endif
                             </td>
                             <td>

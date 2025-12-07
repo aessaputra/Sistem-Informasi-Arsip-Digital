@@ -23,11 +23,11 @@ class KlasifikasiSurat extends Model
 
     public function suratMasuk()
     {
-        return $this->hasMany(SuratMasuk::class);
+        return $this->hasMany(SuratMasuk::class, 'klasifikasi_surat_id');
     }
 
     public function suratKeluar()
     {
-        return $this->hasMany(SuratKeluar::class);
+        return $this->hasMany(SuratKeluar::class, 'klasifikasi_surat_id');
     }
 }
