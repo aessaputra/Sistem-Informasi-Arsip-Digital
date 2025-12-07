@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/sanapati_logo.png') }}">
     <!-- CSS files -->
     <link href="{{ asset('tabler/css/tabler.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-flags.min.css') }}" rel="stylesheet"/>

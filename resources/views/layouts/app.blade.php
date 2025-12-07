@@ -8,6 +8,9 @@
     
     <title>{{ config('app.name', 'Sanapati Surel') }}</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/sanapati_logo.png') }}">
+    
     <!-- CSS files -->
     <link href="{{ asset('tabler/css/tabler.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('tabler/css/tabler-flags.min.css') }}" rel="stylesheet"/>
