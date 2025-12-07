@@ -127,7 +127,7 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <tr class="bg-light fw-bold">
+                    <tr class="bg-primary-lt fw-bold">
                         <td colspan="2" class="text-end">TOTAL</td>
                         <td class="text-center">{{ $totalMasuk }}</td>
                         <td class="text-center">{{ $totalKeluar }}</td>

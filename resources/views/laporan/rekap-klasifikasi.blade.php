@@ -107,7 +107,7 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <tr class="bg-light fw-bold">
+                    <tr class="bg-primary-lt fw-bold">
                         <td colspan="3" class="text-end">TOTAL</td>
                         <td class="text-center">{{ $totalMasuk }}</td>
                         <td class="text-center">{{ $totalKeluar }}</td>
@@ -176,6 +176,16 @@ document.addEventListener("DOMContentLoaded", function() {
             enabled: true,
             formatter: function (val) {
                 return Math.round(val) + "%";
+            },
+            style: {
+                colors: ['#fff']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 2,
+                opacity: 0.5
             }
         },
         plotOptions: {
