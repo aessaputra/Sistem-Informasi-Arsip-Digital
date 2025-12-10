@@ -31,4 +31,10 @@ interface DuplicateDetectionInterface
      * Set similarity threshold for duplicate detection
      */
     public function setSimilarityThreshold(float $threshold): void;
+
+    /**
+     * Check for duplicate based on metadata only (without file)
+     * Used when no file is uploaded, only checks exact nomor_surat match
+     */
+    public function checkDuplicateByMetadata(string $documentType, array $metadata, ?int $excludeId = null): DuplicateDetectionResult;
 }
