@@ -24,6 +24,10 @@ return new class extends Migration
             $table->foreignId('klasifikasi_surat_id')->constrained('klasifikasi_surat')->index('idx_sm_klasifikasi');
             $table->text('keterangan')->nullable();
             $table->string('file_path')->nullable();
+            $table->string('file_hash', 64)->nullable()->index('idx_sm_file_hash');
+            $table->unsignedBigInteger('file_size')->nullable();
+            $table->boolean('is_duplicate')->default(false);
+            $table->json('duplicate_metadata')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

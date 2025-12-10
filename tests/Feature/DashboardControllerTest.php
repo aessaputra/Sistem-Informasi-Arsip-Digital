@@ -21,8 +21,7 @@ class DashboardControllerTest extends TestCase
     {
         parent::setUp();
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'operator']);
+        // Roles are already created in TestCase::ensureRolesExist()
 
         $this->admin = User::factory()->create();
         $this->admin->assignRole('admin');

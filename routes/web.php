@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KlasifikasiController;
 use App\Http\Controllers\LogAktivitasController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\DuplicateResolutionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,14 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:operator|admin')->group(function () {
         Route::resource('surat-masuk', SuratMasukController::class);
         Route::resource('surat-keluar', SuratKeluarController::class);
+
+        // Duplicate Detection Routes
+        Route::prefix('duplicates')->name('duplicates.')->group(function () {
+            Route::post('resolve', [DuplicateResolutionController::class, 'resolve'])->name('resolve');
+            Route::post('bulk-resolve', [DuplicateResolutionController::class, 'bulkResolve'])->name('bulk-resolve');
+            Route::get('statistics', [DuplicateResolutionController::class, 'statistics'])->name('statistics');
+            Route::get('history', [DuplicateResolutionController::class, 'history'])->name('history');
+        });
 
         // Laporan Routes
         Route::prefix('laporan')->name('laporan.')->group(function () {

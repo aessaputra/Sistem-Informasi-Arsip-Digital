@@ -9,6 +9,14 @@
         </div>
     </div>
     <div class="card-body">
+        <!-- Duplicate Warning Component -->
+        <x-duplicate-warning 
+            :existing-document="session('existing_document')"
+            :similarity-score="session('similarity_score', 0)"
+            :detection-method="session('detection_method', '')"
+            :is-update="true"
+        />
+
         <form action="{{ route('surat-masuk.update', $suratMasuk) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')

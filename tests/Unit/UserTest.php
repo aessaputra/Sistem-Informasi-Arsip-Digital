@@ -18,9 +18,7 @@ class UserTest extends TestCase
     {
         parent::setUp();
         
-        // Create roles for testing
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'operator']);
+        // Roles are already created in TestCase::ensureRolesExist()
     }
 
     public function test_user_has_fillable_attributes(): void

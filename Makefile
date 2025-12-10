@@ -5,8 +5,12 @@
 
 .PHONY: help build up down restart logs shell artisan composer npm test migrate fresh seed install
 
-# Auto-detect docker or podman-compose
-COMPOSE := $(shell command -v docker-compose 2>/dev/null || command -v podman-compose 2>/dev/null)
+# Auto-detect docker or podman-compose (Windows compatible)
+ifeq ($(OS),Windows_NT)
+    COMPOSE := docker-compose
+else
+    COMPOSE := $(shell command -v docker-compose 2>/dev/null || command -v podman-compose 2>/dev/null)
+endif
 
 # Default target
 help:
@@ -35,10 +39,10 @@ help:
 	@echo "  make ps           - Show containers"
 	@echo ""
 	@echo "📝 Laravel:"
-	@echo "  make artisan c='...'  - Run artisan"
-	@echo "  make migrate          - Run migrations"
-	@echo "  make fresh            - Fresh migrate + seed"
-	@echo "  make test             - Run tests"
+	@echo "  make artisan c='...'     - Run artisan"
+	@echo "  make migrate             - Run migrations"
+	@echo "  make fresh               - Fresh migrate + seed"
+	@echo "  make test                - Run all tests"
 	@echo ""
 
 # =============================================================================

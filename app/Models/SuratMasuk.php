@@ -24,12 +24,18 @@ class SuratMasuk extends Model
         'klasifikasi_surat_id',
         'keterangan',
         'file_path',
+        'file_hash',
+        'file_size',
+        'is_duplicate',
+        'duplicate_metadata',
     ];
 
     protected $casts = [
         'tanggal_surat' => 'date',
         'tanggal_surat_masuk' => 'date',
         'jam_input' => 'datetime',
+        'is_duplicate' => 'boolean',
+        'duplicate_metadata' => 'array',
     ];
 
     public function petugas()
