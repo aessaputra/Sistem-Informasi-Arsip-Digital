@@ -30,8 +30,9 @@
         @hasSection('hide_brand')
         @else
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark">
-            <img src="{{ asset('img/logo.webp') }}" alt="{{ config('app.name') }}" style="height: 128px; max-height: none; width: auto;">
+          <a href="." class="navbar-brand d-flex flex-column align-items-center gap-2">
+            <img src="{{ asset('img/logo_banten.png') }}" alt="Logo" style="height: 100px; max-width: 220px; object-fit: contain;">
+            <span class="h2 mb-0 fw-bold">{{ config('app.name') }}</span>
           </a>
         </div>
         @endif

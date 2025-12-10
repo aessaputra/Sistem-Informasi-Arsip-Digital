@@ -3,11 +3,15 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-brand navbar-brand-autodark">
-            <a href="{{ route('dashboard') }}" class="navbar-brand">
-                <img src="{{ asset('img/Diskominfo_logo.png') }}" alt="Diskominfo" style="height: 50px; width: auto;">
+        <h1 class="navbar-brand">
+            <a href="{{ route('dashboard') }}" class="d-flex align-items-center text-decoration-none">
+                <img src="{{ asset('img/logo_banten.png') }}" 
+                     alt="Logo Banten" 
+                     class="navbar-brand-image"
+                     height="36">
+                <span class="ms-2 text-white fw-bold d-none d-lg-inline">{{ config('app.name') }}</span>
             </a>
-        </div>
+        </h1>
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">
                 {{-- Dashboard --}}
