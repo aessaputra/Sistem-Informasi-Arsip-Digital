@@ -21,6 +21,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+.kiro
 
 # Docker
 docker-compose.override.yml
