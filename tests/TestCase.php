@@ -15,13 +15,26 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        // Ensure basic roles exist for all tests
-        $this->ensureRolesExist();
+        // Only run database-related setup for tests that actually use database traits
+        if ($this->usesDatabase()) {
+            // Ensure basic roles exist for tests that use database
+            $this->ensureRolesExist();
 
-        // Set up testing environment
-        if ($this->shouldSeedDatabase()) {
-            $this->seed();
+            // Set up testing environment
+            if ($this->shouldSeedDatabase()) {
+                $this->seed();
+            }
         }
+    }
+
+    /**
+     * Determine if the test uses database (has RefreshDatabase or DatabaseTransactions trait)
+     */
+    protected function usesDatabase(): bool
+    {
+        $traits = class_uses_recursive($this);
+        return in_array(RefreshDatabase::class, $traits) || 
+               in_array(DatabaseTransactions::class, $traits);
     }
 
     /**
