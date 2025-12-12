@@ -1,6 +1,6 @@
 # =============================================================================
 # Makefile - Docker Development Commands (FrankenPHP)
-# Sistem Informasi Arsip Digital
+# Sanapati - Sistem Informasi Arsip Digital
 # =============================================================================
 
 .PHONY: help build up down restart logs shell artisan composer npm test migrate fresh seed install

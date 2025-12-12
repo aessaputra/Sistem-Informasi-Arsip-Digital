@@ -1,4 +1,4 @@
-# Sistem Informasi Arsip Digital
+# Sanapati - Sistem Informasi Arsip Digital
 
 <p align="center">
   <strong>Digital Mail Archive Information System</strong><br>
@@ -14,7 +14,7 @@
 
 ## 📋 Tentang Aplikasi
 
-Sistem Informasi Arsip Digital adalah aplikasi web berbasis Laravel yang dirancang untuk mengelola arsip surat masuk dan surat keluar secara digital. Aplikasi ini membantu organisasi atau instansi dalam mencatat, menyimpan, dan mengelola dokumen surat dengan lebih terstruktur dan efisien.
+**Sanapati** adalah aplikasi web berbasis Laravel yang dirancang untuk mengelola arsip surat masuk dan surat keluar secara digital. Aplikasi ini membantu organisasi atau instansi dalam mencatat, menyimpan, dan mengelola dokumen surat dengan lebih terstruktur dan efisien.
 
 ### ✨ Fitur Utama
 
